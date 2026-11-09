@@ -1,0 +1,21 @@
+
+FROM golang:1.25
+
+WORKDIR /app
+
+COPY code/example-backend .
+
+ENV REQUEST_ORIGIN=http://localhost:5001
+
+RUN go build
+
+RUN go test ./...
+
+RUN useradd -m appuser && \
+    chown -R appuser:appuser /app
+
+USER appuser
+
+EXPOSE 8080
+
+CMD ["./server"]
