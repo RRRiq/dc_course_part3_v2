@@ -1,23 +1,17 @@
 
-FROM ubuntu:24.04
+FROM node:16-alpine
 
 WORKDIR /app
-
-ENV DEBIAN_FRONTEND=noninteractive
 
 COPY code/example-frontend .
 
 ENV REACT_APP_BACKEND_URL=http://localhost:8080
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates && \
-    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y --no-install-recommends nodejs && \
-    npm install && \
+RUN npm install && \
     npm run build && \
     npm install -g serve && \
-    useradd -m appuser && \
-    rm -rf src node_modules /root/.npm /var/lib/apt/lists/* && \
+    rm -rf src node_modules /root/.npm && \
+    adduser -D appuser && \
     chown -R appuser:appuser /app
 
 USER appuser
