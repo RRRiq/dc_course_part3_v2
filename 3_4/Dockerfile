@@ -1,4 +1,3 @@
-
 FROM docker:cli
 
 WORKDIR /app
