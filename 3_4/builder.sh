@@ -1,4 +1,5 @@
-##
+#!/bin/sh
+
 if [ "$#" -ne 2 ]; then
   echo "Usage: ./builder.sh <github-repo> <docker-image>"
   exit 1
