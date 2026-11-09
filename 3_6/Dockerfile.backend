@@ -1,0 +1,21 @@
+
+FROM golang:1.25
+
+WORKDIR /app
+
+COPY code/example-backend .
+
+ENV REQUEST_ORIGIN=http://localhost:5001
+
+RUN go build -o server . && \
+    go test ./... && \
+    go clean -cache -modcache && \
+    rm -rf /root/.cache /root/go/pkg/mod && \
+    useradd -m appuser && \
+    chown -R appuser:appuser /app
+
+USER appuser
+
+EXPOSE 8080
+
+CMD ["./server"]
